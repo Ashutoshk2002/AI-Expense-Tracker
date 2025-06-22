@@ -1,0 +1,37 @@
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../db");
+
+const User = sequelize.define(
+  "User",
+  {
+    user_id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+    },
+    profile_pic: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    phone: {
+      type: DataTypes.STRING,
+    },
+    preferred_location: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    tableName: "users",
+    timestamps: true,
+  }
+);
+
+module.exports = User;
