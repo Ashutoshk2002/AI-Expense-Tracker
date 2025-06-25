@@ -33,7 +33,7 @@ const getConnectionPool = () => {
     connectionPool = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
       host: DB_HOST,
       dialect: "mysql",
-      port: 3306,
+      port: 19557,
       pool: {
         max: 5,
         min: 0,

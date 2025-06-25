@@ -24,9 +24,6 @@ const User = sequelize.define(
     phone: {
       type: DataTypes.STRING,
     },
-    preferred_location: {
-      type: DataTypes.STRING,
-    },
   },
   {
     tableName: "users",
