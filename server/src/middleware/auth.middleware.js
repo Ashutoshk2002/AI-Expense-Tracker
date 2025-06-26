@@ -20,7 +20,6 @@ async function cognitoUserMiddleware(req, res, next) {
 
     // For local development
     if (ENVIRONMENT_MODE === "DEV") {
-      req.role = "vendor";
       req.user = {
         id: "31032d3a-c0a1-700b-42d6-aa330c3d2b33",
         email: "ashutosh@test.in",
