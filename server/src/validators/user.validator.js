@@ -26,20 +26,6 @@ const validateRegistration = [
     .withMessage("Phone Number must be valid"),
 ];
 
-const validateRegistrationViaOAuth = [
-  body("user_id")
-    .notEmpty()
-    .withMessage("UserId is required")
-    .isUUID()
-    .withMessage("UserId must be a UUID"),
-
-  body("email")
-    .isEmail()
-    .withMessage("Email must be valid")
-    .notEmpty()
-    .withMessage("Email is required"),
-];
-
 const validateUpdateUser = [
   body("name").optional().isString().withMessage("Name must be a string"),
 
@@ -56,6 +42,5 @@ const validateUpdateUser = [
 
 module.exports = {
   validateRegistration,
-  validateRegistrationViaOAuth,
   validateUpdateUser,
 };

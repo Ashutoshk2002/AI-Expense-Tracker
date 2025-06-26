@@ -9,22 +9,12 @@ const validateRegistrationChain = [
   validateRequest,
 ];
 
-const validateOAuthRegistrationChain = [
-  userValidator.validateRegistrationViaOAuth,
-  validateRequest,
-];
-
 const validateUpdateChain = [userValidator.validateUpdateUser, validateRequest];
 
 // Register User
 router
   .route("/register")
   .post(validateRegistrationChain, userController.registerController);
-
-// Register User using OAuth
-router
-  .route("/register/oauth")
-  .post(validateOAuthRegistrationChain, userController.oauthRegisterController);
 
 // Get User by ID
 router.route("/:user_id").get(userController.getUserByIdController);
