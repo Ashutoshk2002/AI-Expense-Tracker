@@ -172,30 +172,6 @@ const gatherReportData = async (userId, period) => {
         percentage > 100 ? "OVER_BUDGET" : percentage > 80 ? "WARNING" : "GOOD",
     };
   });
-  console.log(
-    "-----------------------------------gatherReportData------------------------------------"
-  );
-  console.log({
-    totalExpenses,
-    totalTransactions,
-    categoryBreakdown,
-    paymentMethodBreakdown,
-    dailySpending,
-    budgetAnalysis,
-    period,
-    expenses: expenses.map((exp) => ({
-      id: exp.expense_id,
-      amount: parseFloat(exp.amount),
-      category: exp.category?.name || "Uncategorized",
-      description: exp.description,
-      date: exp.expense_date,
-      paymentMethod: exp.payment_method,
-      merchantName: exp.merchant_name,
-    })),
-  });
-  console.log(
-    "-----------------------------------------------------------------------"
-  );
   return {
     totalExpenses,
     totalTransactions,
@@ -243,21 +219,7 @@ const generateAIAnalysis = async (reportData, reportType, period) => {
     const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       const parsedAnalysis = JSON.parse(jsonMatch[0]);
-      console.log(
-        "-----------------------------------generateAIAnalysis------------------------------------"
-      );
-      console.log("jsonMatch ", jsonMatch);
-      console.log("generated Text=> ", generatedText);
-      console.log("parsedAnalysis=> ", parsedAnalysis);
-      console.log(
-        "validateAndFixAnalysis=> ",
-        validateAndFixAnalysis(parsedAnalysis)
-      );
-      console.log(
-        "-----------------------------------------------------------------------"
-      );
 
-      // Validate and ensure required structure exists
       return validateAndFixAnalysis(parsedAnalysis);
     } else {
       logger.warn("No valid JSON found in Titan response, using fallback");
@@ -398,63 +360,6 @@ const generateFallbackAnalysis = (reportData) => {
       reportData.categoryBreakdown[b].total -
       reportData.categoryBreakdown[a].total
   )[0];
-
-  console.log(
-    "-----------------------------------generateFallbackAnalysis------------------------------------"
-  );
-  console.log("generateFallbackAnalysis=> ", {
-    summary: {
-      totalSpent: reportData.totalExpenses,
-      averageDailySpending: avgDaily,
-      keyInsights: [
-        `Total spending was ₹${reportData.totalExpenses.toFixed(2)}`,
-        `Average daily spending was ₹${avgDaily.toFixed(2)}`,
-        `Highest spending category was ${topCategory || "N/A"}`,
-      ],
-    },
-    categoryAnalysis: {
-      topSpendingCategories: Object.keys(reportData.categoryBreakdown)
-        .sort(
-          (a, b) =>
-            reportData.categoryBreakdown[b].total -
-            reportData.categoryBreakdown[a].total
-        )
-        .slice(0, 3),
-      recommendations: [
-        "Review top spending categories",
-        "Consider setting stricter budgets",
-      ],
-    },
-    budgetPerformance: {
-      overBudgetCount: reportData.budgetAnalysis.filter(
-        (b) => b.status === "OVER_BUDGET"
-      ).length,
-      warningBudgetCount: reportData.budgetAnalysis.filter(
-        (b) => b.status === "WARNING"
-      ).length,
-      totalBudgetVariance: 0,
-      budgetRecommendations: ["Monitor budget usage more closely"],
-    },
-    spendingPatterns: {
-      peakSpendingDays: [],
-      spendingTrends: "Regular spending pattern observed",
-      seasonalInsights: "No specific seasonal patterns identified",
-    },
-    recommendations: {
-      shortTerm: ["Track daily expenses", "Review unnecessary expenses"],
-      longTerm: ["Build an emergency fund", "Plan major purchases"],
-      budgetAdjustments: ["Adjust budgets based on actual spending"],
-    },
-    financialHealth: {
-      score: calculateFinancialHealthScore(reportData),
-      strengths: ["Regular expense tracking"],
-      areasForImprovement: ["Budget adherence", "Expense categorization"],
-    },
-  });
-  console.log(
-    "-----------------------------------------------------------------------"
-  );
-
   return {
     summary: {
       totalSpent: reportData.totalExpenses,
