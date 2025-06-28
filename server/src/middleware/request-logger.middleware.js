@@ -17,9 +17,7 @@ const requestLogger = (req, res, next) => {
     path: req.originalUrl,
     statusCode: null,
     durationMs: null,
-    user: req?.user?.id || "anonymous",
-    vendor: req?.vendor?.id || "anonymous",
-    venue: req?.venue?.id || "anonymous",
+    user: req?.user?.user_id || "anonymous",
   };
 
   req._requestLog = {

@@ -28,7 +28,7 @@ const createExpenseController = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const expenseData = matchedData(req);
     const { category_id, amount, expense_date } = expenseData;
 
@@ -76,7 +76,7 @@ const createExpenseController = async (req, res) => {
 // Get Expense by ID
 const getExpenseByIdController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const { expense_id } = req.params;
 
     const expense = await Expense.findOne({
@@ -117,7 +117,7 @@ const getExpenseByIdController = async (req, res) => {
 // Get All Expenses
 const getAllExpensesController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
 
     const expenses = await Expense.findAll({
       where: { user_id },
@@ -150,7 +150,7 @@ const updateExpenseController = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const expense_id = req.params.expense_id;
     const updateData = matchedData(req);
 
@@ -211,7 +211,7 @@ const deleteExpenseController = async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const expense_id = req.params.expense_id;
 
     const expense = await findExpenseById(expense_id, user_id, transaction);

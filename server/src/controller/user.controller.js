@@ -4,6 +4,11 @@ const { ApiResponse } = require("../utils/ApiResponse");
 const { ApiError } = require("../utils/ApiError");
 const { handleControllerError } = require("../helper/handleControllerError");
 const { sequelize } = require("../db");
+const {
+  hashPassword,
+  comparePassword,
+  generateToken,
+} = require("../helper/user.helper");
 
 // Utility function to find user by ID
 const findUserById = async (user_id) => {
@@ -21,15 +26,18 @@ const findUserById = async (user_id) => {
 const registerUser = async (userData, req, res) => {
   const transaction = await sequelize.transaction();
   try {
-    const [newUser, created] = await User.findOrCreate({
-      where: { email: userData.email },
-      defaults: userData,
-      transaction,
-    });
+    const { name, email, phone, password } = req.body;
 
-    if (!created) {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser)
       throw new ApiError(409, "User with this email already exists");
-    }
+
+    const hashed = await hashPassword(password);
+
+    const newUser = await User.create(
+      { name, email, phone, password: hashed },
+      { transaction }
+    );
 
     await transaction.commit();
     return res
@@ -38,6 +46,26 @@ const registerUser = async (userData, req, res) => {
   } catch (error) {
     await transaction.rollback();
     handleControllerError(res, error, "registering user");
+  }
+};
+
+const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) throw new ApiError(401, "Invalid email or password");
+
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch) throw new ApiError(401, "Invalid email or password");
+
+    const token = generateToken(user);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { user, token }, "Login successful"));
+  } catch (err) {
+    handleControllerError(res, err, "logging in");
   }
 };
 
@@ -89,6 +117,7 @@ const deleteUserController = async (req, res) => {
 
 module.exports = {
   registerController,
+  loginController,
   getUserByIdController,
   updateUserController,
   deleteUserController,

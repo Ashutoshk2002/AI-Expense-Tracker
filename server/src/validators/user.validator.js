@@ -13,11 +13,31 @@ const validateRegistration = [
     .isString()
     .withMessage("Name must be a string"),
 
+  body("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+
   body("phone")
     .notEmpty()
     .withMessage("Phone Number is required")
     .isMobilePhone()
     .withMessage("Phone Number must be valid"),
+];
+
+const validateLoginUser = [
+  body("email")
+    .notEmpty()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Email must be valid"),
+
+  body("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
 ];
 
 const validateUpdateUser = [
@@ -36,5 +56,6 @@ const validateUpdateUser = [
 
 module.exports = {
   validateRegistration,
+  validateLoginUser,
   validateUpdateUser,
 };
