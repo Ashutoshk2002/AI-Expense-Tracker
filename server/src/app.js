@@ -3,8 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 const routes = require("./routes");
-const cognitoUserMiddleware = require("./middleware/auth.middleware");
 const { notFoundHandler, requestLogger } = require("./middleware");
+// const cognitoUserMiddleware = require("./middleware/auth.middleware");
 
 const app = express();
 
@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression(compressionOptions));
 
 // Custom middleware
-app.use(cognitoUserMiddleware);
+// app.use(cognitoUserMiddleware);
 app.use(requestLogger);
 
 app.use(API_PREFIX, routes);

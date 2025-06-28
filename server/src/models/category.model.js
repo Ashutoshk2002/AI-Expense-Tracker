@@ -13,17 +13,9 @@ const Category = sequelize.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
     icon: {
       type: DataTypes.STRING(50),
       defaultValue: "receipt",
-    },
-    is_system: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
     },
   },
   {

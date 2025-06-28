@@ -1,12 +1,6 @@
 const { body } = require("express-validator");
 
 const validateRegistration = [
-  body("user_id")
-    .notEmpty()
-    .withMessage("UserId is required")
-    .isUUID()
-    .withMessage("UserId must be a UUID"),
-
   body("email")
     .isEmail()
     .withMessage("Email must be valid")
