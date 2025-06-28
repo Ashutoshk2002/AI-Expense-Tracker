@@ -48,19 +48,7 @@ const Budget = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
     },
-    alert_threshold: {
-      type: DataTypes.DECIMAL(3, 2),
-      defaultValue: 0.8,
-      validate: {
-        min: 0,
-        max: 1,
-      },
-    },
     is_active: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-    },
-    auto_reset: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },

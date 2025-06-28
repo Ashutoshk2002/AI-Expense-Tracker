@@ -7,7 +7,6 @@ const models = {
   Expense: require("./expense.model"),
   Receipt: require("./receipt.model"),
   Report: require("./report.model"),
-  Alert: require("./alert.model"),
 };
 
 // Default options for associations
@@ -17,7 +16,7 @@ const DEFAULT_CASCADE = {
 };
 
 function setupAssociations() {
-  const { User, Budget, Category, Expense, Receipt, Report, Alert } = models;
+  const { User, Budget, Category, Expense, Receipt, Report } = models;
 
   User.hasMany(Expense, {
     foreignKey: "user_id",
@@ -34,12 +33,6 @@ function setupAssociations() {
   User.hasMany(Receipt, {
     foreignKey: "user_id",
     as: "receipts",
-    ...DEFAULT_CASCADE,
-  });
-
-  User.hasMany(Alert, {
-    foreignKey: "user_id",
-    as: "alerts",
     ...DEFAULT_CASCADE,
   });
 
@@ -103,12 +96,6 @@ function setupAssociations() {
     constraints: false,
   });
 
-  Budget.hasMany(Alert, {
-    foreignKey: "budget_id",
-    as: "alerts",
-    ...DEFAULT_CASCADE,
-  });
-
   // ==========================================
   // RECEIPT ASSOCIATIONS
   // ==========================================
@@ -122,22 +109,6 @@ function setupAssociations() {
   Receipt.belongsTo(Expense, {
     foreignKey: "expense_id",
     as: "expense",
-    constraints: false,
-  });
-
-  // ==========================================
-  // ALERT ASSOCIATIONS
-  // ==========================================
-
-  Alert.belongsTo(User, {
-    foreignKey: "user_id",
-    as: "user",
-    ...DEFAULT_CASCADE,
-  });
-
-  Alert.belongsTo(Budget, {
-    foreignKey: "budget_id",
-    as: "budget",
     constraints: false,
   });
 
