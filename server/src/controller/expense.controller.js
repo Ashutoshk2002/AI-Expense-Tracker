@@ -1,4 +1,4 @@
-const { Expense, Category } = require("../models");
+const { Expense, Category, User } = require("../models");
 const { matchedData } = require("express-validator");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { ApiError } = require("../utils/ApiError");
@@ -22,12 +22,19 @@ const createExpenseController = async (req, res) => {
   try {
     const user_id = req.query.user_id;
     const expenseData = matchedData(req);
+    const category_id = expenseData.category_id;
 
-    const category = await Category.findOne({
-      where: {
-        category_id: expenseData.category_id,
-      },
-    });
+    const [user, category] = await Promise.all([
+      User.findByPk(user_id),
+      Category.findByPk(category_id),
+    ]);
+
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
+    if (!category) {
+      throw new ApiError(404, "Category not found");
+    }
 
     if (!category) {
       throw new ApiError(404, "Category not found");
@@ -55,7 +62,7 @@ const getExpenseByIdController = async (req, res) => {
       include: [
         {
           association: "category",
-          attributes: ["name", "icon", "description"],
+          attributes: ["name", "icon"],
         },
         {
           association: "receipt",
@@ -92,7 +99,7 @@ const getAllExpensesController = async (req, res) => {
       include: [
         {
           association: "category",
-          attributes: ["name", "icon", "description"],
+          attributes: ["name", "icon"],
         },
         {
           association: "receipt",
