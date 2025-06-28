@@ -1,23 +1,32 @@
+const multerS3 = require("multer-s3");
+const { v4: uuidv4 } = require("uuid");
+const s3 = require("../config/s3Client");
 const multer = require("multer");
-const memoryStorage = multer.memoryStorage();
 
 const upload = multer({
-  storage: memoryStorage,
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.S3_BUCKET_NAME,
+    key: function (req, file, cb) {
+      const key = `receipts/${req.user.user_id}/${uuidv4()}-${
+        file.originalname
+      }`;
+      cb(null, key);
+    },
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+  }),
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ["application/pdf", "image/jpeg", "image/png"];
-
-    if (allowedMimeTypes.includes(file.mimetype)) {
+    if (
+      file.mimetype.startsWith("image/") ||
+      file.mimetype === "application/pdf"
+    ) {
       cb(null, true);
     } else {
-      cb(
-        new Error("Invalid file type. Only images and PDF files are allowed."),
-        false
-      );
+      cb(new Error("Invalid file type"), false);
     }
   },
   limits: {
-    fileSize: 1024 * 1024 * 10, // 10 MB
-    files: 1,
+    fileSize: 10 * 1024 * 1024, // 10MB
   },
 });
 
