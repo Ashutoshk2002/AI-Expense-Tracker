@@ -42,14 +42,6 @@ const Expense = sequelize.define(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    receipt_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    receipt_text: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
     payment_method: {
       type: DataTypes.ENUM(Object.values(PAYMENT_METHOD)),
       defaultValue: PAYMENT_METHOD.OTHER,
