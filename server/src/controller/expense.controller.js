@@ -3,7 +3,6 @@ const { matchedData } = require("express-validator");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { ApiError } = require("../utils/ApiError");
 const { handleControllerError } = require("../helper/handleControllerError");
-const { Op } = require("sequelize");
 
 // Utility function to find expense by ID
 const findExpenseById = async (expense_id, user_id) => {
@@ -21,13 +20,12 @@ const findExpenseById = async (expense_id, user_id) => {
 // Create Expense
 const createExpenseController = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const user_id = req.query.user_id;
     const expenseData = matchedData(req);
 
     const category = await Category.findOne({
       where: {
         category_id: expenseData.category_id,
-        [Op.or]: [{ user_id }, { is_system: true }],
       },
     });
 
@@ -46,7 +44,7 @@ const createExpenseController = async (req, res) => {
 // Get Expense by ID
 const getExpenseByIdController = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const user_id = req.query.user_id;
     const { expense_id } = req.params;
 
     const expense = await Expense.findOne({
@@ -87,7 +85,7 @@ const getExpenseByIdController = async (req, res) => {
 // Get All Expenses
 const getAllExpensesController = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const user_id = req.query.user_id;
 
     const expenses = await Expense.findAll({
       where: { user_id },
@@ -118,7 +116,7 @@ const getAllExpensesController = async (req, res) => {
 // Update Expense
 const updateExpenseController = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const user_id = req.query.user_id;
     const expense_id = req.params.expense_id;
 
     const expense = await findExpenseById(expense_id, user_id);
@@ -135,7 +133,7 @@ const updateExpenseController = async (req, res) => {
 // Delete Expense
 const deleteExpenseController = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const user_id = req.query.user_id;
     const expense_id = req.params.expense_id;
 
     const expense = await findExpenseById(expense_id, user_id);

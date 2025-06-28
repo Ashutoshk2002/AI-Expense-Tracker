@@ -47,12 +47,6 @@ const registerController = async (req, res) => {
   await registerUser(userData, req, res);
 };
 
-// Register Function for OAuth
-const oauthRegisterController = async (req, res) => {
-  const userData = matchedData(req);
-  await registerUser(userData, req, res);
-};
-
 // Get User by ID controller
 const getUserByIdController = async (req, res) => {
   try {
@@ -95,7 +89,6 @@ const deleteUserController = async (req, res) => {
 
 module.exports = {
   registerController,
-  oauthRegisterController,
   getUserByIdController,
   updateUserController,
   deleteUserController,
