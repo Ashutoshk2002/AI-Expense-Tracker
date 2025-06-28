@@ -3,7 +3,7 @@ const { JWT_SECRET, ENVIRONMENT_MODE } = require("../constants");
 
 const verifyToken = (req, res, next) => {
   if (ENVIRONMENT_MODE === "DEV") {
-    req.user = { user_id: "f8ed620f-bf23-41ad-82dc-3c0073d8f7a2" };
+    req.user = { user_id: "5d4eda7e-a244-47f9-a330-6892dd9f196f" };
     return next();
   }
   const authHeader = req.headers.authorization;

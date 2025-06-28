@@ -1,3 +1,6 @@
+require("dotenv").config({
+  path: "../../.env",
+});
 const { BedrockRuntimeClient } = require("@aws-sdk/client-bedrock-runtime");
 
 const bedrockClient = new BedrockRuntimeClient({

@@ -35,16 +35,6 @@ const validateExpense = [
     .isISO8601()
     .withMessage("Expense date must be a valid date"),
 
-  body("receipt_url")
-    .optional()
-    .isString()
-    .withMessage("Receipt URL must be a string"),
-
-  body("receipt_text")
-    .optional()
-    .isString()
-    .withMessage("Receipt text must be a string"),
-
   body("payment_method")
     .optional()
     .isIn(Object.values(PAYMENT_METHOD))
@@ -110,16 +100,6 @@ const validateUpdateExpense = [
     .optional()
     .isISO8601()
     .withMessage("Expense date must be a valid date"),
-
-  body("receipt_url")
-    .optional()
-    .isString()
-    .withMessage("Receipt URL must be a string"),
-
-  body("receipt_text")
-    .optional()
-    .isString()
-    .withMessage("Receipt text must be a string"),
 
   body("payment_method")
     .optional()
