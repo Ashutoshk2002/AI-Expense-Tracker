@@ -19,12 +19,6 @@ const DEFAULT_CASCADE = {
 function setupAssociations() {
   const { User, Budget, Category, Expense, Receipt, Report, Alert } = models;
 
-  User.hasMany(Category, {
-    foreignKey: "user_id",
-    as: "userCategories",
-    ...DEFAULT_CASCADE,
-  });
-
   User.hasMany(Expense, {
     foreignKey: "user_id",
     as: "expenses",
@@ -58,12 +52,6 @@ function setupAssociations() {
   // ==========================================
   // CATEGORY ASSOCIATIONS
   // ==========================================
-
-  Category.belongsTo(User, {
-    foreignKey: "user_id",
-    as: "user",
-    constraints: false,
-  });
 
   Category.hasMany(Expense, {
     foreignKey: "category_id",
