@@ -5,7 +5,6 @@ const models = {
   Budget: require("./budget.model"),
   Category: require("./category.model"),
   Expense: require("./expense.model"),
-  Receipt: require("./receipt.model"),
   Report: require("./report.model"),
 };
 
@@ -16,7 +15,7 @@ const DEFAULT_CASCADE = {
 };
 
 function setupAssociations() {
-  const { User, Budget, Category, Expense, Receipt, Report } = models;
+  const { User, Budget, Category, Expense, Report } = models;
 
   User.hasMany(Expense, {
     foreignKey: "user_id",
@@ -27,12 +26,6 @@ function setupAssociations() {
   User.hasMany(Budget, {
     foreignKey: "user_id",
     as: "budgets",
-    ...DEFAULT_CASCADE,
-  });
-
-  User.hasMany(Receipt, {
-    foreignKey: "user_id",
-    as: "receipts",
     ...DEFAULT_CASCADE,
   });
 
@@ -74,12 +67,6 @@ function setupAssociations() {
     ...DEFAULT_CASCADE,
   });
 
-  Expense.hasOne(Receipt, {
-    foreignKey: "expense_id",
-    as: "receipt",
-    onDelete: "SET NULL",
-  });
-
   // ==========================================
   // BUDGET ASSOCIATIONS
   // ==========================================
@@ -93,22 +80,6 @@ function setupAssociations() {
   Budget.belongsTo(Category, {
     foreignKey: "category_id",
     as: "category",
-    constraints: false,
-  });
-
-  // ==========================================
-  // RECEIPT ASSOCIATIONS
-  // ==========================================
-
-  Receipt.belongsTo(User, {
-    foreignKey: "user_id",
-    as: "user",
-    ...DEFAULT_CASCADE,
-  });
-
-  Receipt.belongsTo(Expense, {
-    foreignKey: "expense_id",
-    as: "expense",
     constraints: false,
   });
 
