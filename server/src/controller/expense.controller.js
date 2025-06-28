@@ -89,15 +89,6 @@ const getExpenseByIdController = async (req, res) => {
           association: "category",
           attributes: ["name", "icon"],
         },
-        {
-          association: "receipt",
-          attributes: [
-            "receipt_id",
-            "s3_key",
-            "processing_status",
-            "extracted_text",
-          ],
-        },
       ],
     });
 
@@ -125,10 +116,6 @@ const getAllExpensesController = async (req, res) => {
         {
           association: "category",
           attributes: ["name", "icon"],
-        },
-        {
-          association: "receipt",
-          attributes: ["receipt_id", "s3_key", "processing_status"],
         },
       ],
     });
