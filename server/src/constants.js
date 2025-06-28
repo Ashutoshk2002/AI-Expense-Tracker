@@ -2,6 +2,9 @@
 const ENVIRONMENT_MODE = process.env.ENVIRONMENT_MODE;
 const PORT = process.env.PORT;
 
+//JWT SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
+
 // AWS RDS
 const AWS_REGION = process.env.AWS_REGION;
 const DB_NAME = process.env.DB_NAME;
@@ -42,4 +45,5 @@ module.exports = {
   SES_RATE_LIMIT,
   FRONTEND_URL,
   SES_SENDER_EMAIL,
+  JWT_SECRET,
 };

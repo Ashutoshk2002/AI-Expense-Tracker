@@ -1,39 +1,26 @@
-const { logger } = require("../utils/logger");
-const { ENVIRONMENT_MODE } = require("../constants");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET, ENVIRONMENT_MODE } = require("../constants");
 
-async function cognitoUserMiddleware(req, res, next) {
-  try {
-    // For Lambda (API Gateway) context
-    if (req.apiGateway && req.apiGateway.event) {
-      const claims = req.apiGateway.event.requestContext?.authorizer?.claims;
-
-      if (claims) {
-        const baseInfo = {
-          id: claims.sub,
-          email: claims.email,
-        };
-
-        req.user = baseInfo;
-        return next();
-      }
-    }
-
-    // For local development
-    if (ENVIRONMENT_MODE === "DEV") {
-      req.user = {
-        id: "31032d3a-c0a1-700b-42d6-aa330c3d2b33",
-        email: "ashutosh@test.in",
-      };
-
-      return next();
-    }
-
-    req.user = null;
+const verifyToken = (req, res, next) => {
+  if (ENVIRONMENT_MODE === "DEV") {
+    req.user = { user_id: "f8ed620f-bf23-41ad-82dc-3c0073d8f7a2" };
     return next();
-  } catch (error) {
-    logger.error("Error in cognitoUserMiddleware:", error);
-    next(error);
   }
-}
+  const authHeader = req.headers.authorization;
 
-module.exports = cognitoUserMiddleware;
+  if (!authHeader?.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
+};
+
+module.exports = verifyToken;

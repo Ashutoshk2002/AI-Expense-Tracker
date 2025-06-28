@@ -9,7 +9,7 @@ const { calculateBudgetPeriod } = require("../helper/CommonHelper");
 // Create Budget
 const createBudgetController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const budgetData = matchedData(req);
     const { period_start, period_end } = calculateBudgetPeriod(
       budgetData.budget_period,
@@ -78,7 +78,7 @@ const createBudgetController = async (req, res) => {
 // Get Budget by ID
 const getBudgetByIdController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const { budget_id } = req.params;
     const budget = await Budget.findOne({
       where: { budget_id, user_id },
@@ -104,7 +104,7 @@ const getBudgetByIdController = async (req, res) => {
 // Get All Budgets
 const getAllBudgetsController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const whereClause = { user_id };
 
     const budgets = await Budget.findAll({
@@ -166,7 +166,7 @@ const getAllBudgetsController = async (req, res) => {
 // Update Budget
 const updateBudgetController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const { budget_id } = req.params;
     const budget = await Budget.findOne({ where: { budget_id, user_id } });
     if (!budget) throw new ApiError(404, "Budget not found");
@@ -207,7 +207,7 @@ const updateBudgetController = async (req, res) => {
 // Delete Budget
 const deleteBudgetController = async (req, res) => {
   try {
-    const user_id = req.query.user_id;
+    const user_id = req.user.user_id;
     const { budget_id } = req.params;
     const budget = await Budget.findOne({ where: { budget_id, user_id } });
     if (!budget) throw new ApiError(404, "Budget not found");

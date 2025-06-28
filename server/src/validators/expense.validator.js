@@ -1,12 +1,7 @@
-const { body, query } = require("express-validator");
+const { body } = require("express-validator");
 const { EXPENSE_STATUS, PAYMENT_METHOD } = require("../constants/enum");
 
 const validateExpense = [
-  query("user_id")
-    .notEmpty()
-    .isUUID()
-    .withMessage("user_id must be a valid UUID"),
-
   body("category_id")
     .notEmpty()
     .withMessage("Category ID is required")
@@ -85,11 +80,6 @@ const validateExpense = [
 ];
 
 const validateUpdateExpense = [
-  query("user_id")
-    .notEmpty()
-    .isUUID()
-    .withMessage("user_id must be a valid UUID"),
-
   body("category_id")
     .optional()
     .isUUID()

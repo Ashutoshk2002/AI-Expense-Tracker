@@ -1,12 +1,7 @@
-const { body, query } = require("express-validator");
+const { body } = require("express-validator");
 const { BUDGET_PERIOD } = require("../constants/enum");
 
 const validateBudget = [
-  query("user_id")
-    .notEmpty()
-    .isUUID()
-    .withMessage("user_id must be a valid UUID"),
-
   body("name")
     .notEmpty()
     .withMessage("Budget name is required")
@@ -47,11 +42,6 @@ const validateBudget = [
 ];
 
 const validateUpdateBudget = [
-  query("user_id")
-    .notEmpty()
-    .isUUID()
-    .withMessage("user_id must be a valid UUID"),
-
   body("name")
     .optional()
     .isString()

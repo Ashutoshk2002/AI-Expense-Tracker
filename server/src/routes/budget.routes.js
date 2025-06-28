@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const budgetController = require("../controller/budget.controller");
 const budgetValidator = require("../validators/budget.validator");
-const { validateRequest } = require("../middleware");
+const { validateRequest, verifyToken } = require("../middleware");
 
 const validateBudgetChain = [budgetValidator.validateBudget, validateRequest];
 const validateBudgetUpdateChain = [
@@ -12,14 +12,22 @@ const validateBudgetUpdateChain = [
 
 router
   .route("/")
-  .post(validateBudgetChain, budgetController.createBudgetController)
-  .get(budgetController.getAllBudgetsController);
+  .post(
+    verifyToken,
+    validateBudgetChain,
+    budgetController.createBudgetController
+  )
+  .get(verifyToken, budgetController.getAllBudgetsController);
 
 router
   .route("/:budget_id")
-  .get(budgetController.getBudgetByIdController)
-  .patch(validateBudgetUpdateChain, budgetController.updateBudgetController)
-  .delete(budgetController.deleteBudgetController);
+  .get(verifyToken, budgetController.getBudgetByIdController)
+  .patch(
+    verifyToken,
+    validateBudgetUpdateChain,
+    budgetController.updateBudgetController
+  )
+  .delete(verifyToken, budgetController.deleteBudgetController);
 
 module.exports = router;
 module.exports = router;

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const expenseController = require("../controller/expense.controller");
 const expenseValidator = require("../validators/expense.validator");
-const { validateRequest } = require("../middleware");
+const { validateRequest, verifyToken } = require("../middleware");
 
 const validateExpenseChain = [
   expenseValidator.validateExpense,
@@ -16,20 +16,32 @@ const validateExpenseUpdateChain = [
 // Create expense
 router
   .route("/")
-  .post(validateExpenseChain, expenseController.createExpenseController);
+  .post(
+    verifyToken,
+    validateExpenseChain,
+    expenseController.createExpenseController
+  );
 
 // Get expense by id
-router.route("/:expense_id").get(expenseController.getExpenseByIdController);
+router
+  .route("/:expense_id")
+  .get(verifyToken, expenseController.getExpenseByIdController);
 
 // Get all expenses
-router.route("/").get(expenseController.getAllExpensesController);
+router.route("/").get(verifyToken, expenseController.getAllExpensesController);
 
 // Update expense by id
 router
   .route("/:expense_id")
-  .patch(validateExpenseUpdateChain, expenseController.updateExpenseController);
+  .patch(
+    verifyToken,
+    validateExpenseUpdateChain,
+    expenseController.updateExpenseController
+  );
 
 // Delete expense by id
-router.route("/:expense_id").delete(expenseController.deleteExpenseController);
+router
+  .route("/:expense_id")
+  .delete(verifyToken, expenseController.deleteExpenseController);
 
 module.exports = router;
