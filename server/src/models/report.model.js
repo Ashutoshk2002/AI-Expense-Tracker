@@ -42,14 +42,6 @@ const Report = sequelize.define(
       type: DataTypes.JSON,
       allowNull: true,
     },
-    pdf_s3_key: {
-      type: DataTypes.STRING(500),
-      allowNull: true,
-    },
-    pdf_url: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
     status: {
       type: DataTypes.ENUM(Object.values(REPORT_STATUS)),
       defaultValue: REPORT_STATUS.GENERATING,
