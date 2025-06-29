@@ -42,12 +42,12 @@ const Report = sequelize.define(
       type: DataTypes.JSON,
       allowNull: true,
     },
-    pdf_s3_key: {
-      type: DataTypes.STRING(500),
+    structured_analysis: {
+      type: DataTypes.JSON,
       allowNull: true,
     },
-    pdf_url: {
-      type: DataTypes.TEXT,
+    ai_insights: {
+      type: DataTypes.JSON,
       allowNull: true,
     },
     status: {
