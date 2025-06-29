@@ -1,8 +1,4 @@
-// reportController.js
-const {
-  InvokeCommand,
-  InvokeModelCommand,
-} = require("@aws-sdk/client-bedrock-runtime");
+const { InvokeModelCommand } = require("@aws-sdk/client-bedrock-runtime");
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
 const bedrockClient = require("../config/bedrockClient");
 const sesClient = require("../config/SESClient");
