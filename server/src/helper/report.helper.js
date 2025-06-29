@@ -14,6 +14,19 @@ const analyzeSpendingPatterns = (dailySpending) => {
     dayOfWeek: new Date(date).getDay(),
   }));
 
+  if (spendingArray.length === 0) {
+    return {
+      peakSpendingDays: [],
+      dayOfWeekAnalysis: {
+        topSpendingDay: null,
+        topSpendingAmount: 0,
+        breakdown: [],
+      },
+      totalSpendingDays: 0,
+      averageSpendingPerDay: 0,
+    };
+  }
+
   // Find peak spending days
   const sortedByAmount = [...spendingArray].sort((a, b) => b.amount - a.amount);
   const peakSpendingDays = sortedByAmount.slice(0, 3);
@@ -35,9 +48,11 @@ const analyzeSpendingPatterns = (dailySpending) => {
     "Friday",
     "Saturday",
   ];
-  const topSpendingDay = Object.entries(dayOfWeekSpending).sort(
+  const sortedDays = Object.entries(dayOfWeekSpending).sort(
     ([, a], [, b]) => b - a
-  )[0];
+  );
+
+  const topSpendingDay = sortedDays[0] || [null, 0];
 
   return {
     peakSpendingDays: peakSpendingDays.map((day) => ({
