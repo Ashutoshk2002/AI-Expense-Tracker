@@ -42,6 +42,14 @@ const Report = sequelize.define(
       type: DataTypes.JSON,
       allowNull: true,
     },
+    structured_analysis: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
+    ai_insights: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
     status: {
       type: DataTypes.ENUM(Object.values(REPORT_STATUS)),
       defaultValue: REPORT_STATUS.GENERATING,
