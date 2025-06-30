@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   TrendingUp,
-  TrendingDown,
   DollarSign,
   Calendar,
   Target,
@@ -17,11 +16,7 @@ import {
   PieChart,
 } from "lucide-react";
 import { useReport } from "@/services/report";
-import type {
-  Report,
-  BudgetAnalysisItem,
-  CategoryBreakdownItem,
-} from "@/types";
+import type { Report } from "@/types";
 
 interface ReportDisplayProps {
   reportId: string;
