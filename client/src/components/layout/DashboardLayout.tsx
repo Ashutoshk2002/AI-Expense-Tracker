@@ -50,7 +50,7 @@ export function DashboardLayout({
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Wallet className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">SpenWiseAI</h1>
+              <h1 className="text-xl font-bold text-gray-900">SpendWiseAI</h1>
             </div>
 
             {/* Desktop Navigation */}

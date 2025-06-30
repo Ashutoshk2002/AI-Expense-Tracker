@@ -3,7 +3,7 @@ export const config = {
     baseUrl: import.meta.env.VITE_API_BASE_URL,
   },
   app: {
-    name: "SpenWiseAI",
+    name: "SpendWiseAI",
     description: "Smart expense tracking made simple",
   },
 } as const;
