@@ -1,8 +1,6 @@
 export const config = {
   api: {
-    baseUrl:
-      import.meta.env.VITE_API_BASE_URL ||
-      "https://2taw3onzgd.execute-api.ap-south-1.amazonaws.com/prod/api/v1",
+    baseUrl: import.meta.env.VITE_API_BASE_URL,
   },
   app: {
     name: "SpenWiseAI",
