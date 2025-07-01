@@ -6,11 +6,11 @@ A serverless AI-powered personal finance management application that provides in
 
 SpendWiseAI helps users track their expenses and budgets by providing AI-generated insights and recommendations. The application leverages AWS Lambda for serverless computing, AWS Bedrock for AI analysis, and various other AWS services for a complete cloud-native solution.
 
-## 📦 Backend Architecture Using AWS Lambda
+## Backend Architecture Using AWS Lambda
 
 The entire backend of SpendWiseAI is built on **AWS Lambda**, allowing for a serverless, cost-effective, and scalable infrastructure.
 
-### ✅ Key Functionalities Handled by Lambda
+### Key Functionalities Handled by Lambda
 
 1. **Express App on Lambda**  
    - The backend is a standard Node.js + Express application.
